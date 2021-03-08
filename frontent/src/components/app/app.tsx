@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactElement } from 'react';
 
 const App: FunctionComponent = (): ReactElement => {
-  return <div>test</div>;
+  return <div />
 };
 
 export default App;
