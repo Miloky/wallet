@@ -10,10 +10,22 @@ namespace Wallet.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            
+            
+            // Swagger
+            services.AddSwaggerGen();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Wallet");
+            });
+            
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
