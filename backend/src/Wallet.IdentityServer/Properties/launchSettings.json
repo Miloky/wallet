@@ -1,0 +1,12 @@
+﻿{
+  "profiles": {
+    "Wallet.IdentityServer": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:5698;http://localhost:5697",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
