@@ -1,0 +1,32 @@
+﻿services:
+#  wallet.api:
+#    image: wallet.api
+#    build:
+#      context: .
+#      dockerfile: Wallet.Api/Dockerfile
+  
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORD=me_admin
+    restart: unless-stopped
+    volumes:
+      - ./seq-data:/data
+  
+  mongodb:
+    image: mongo:latest
+    container_name: my-mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: myuser
+      MONGO_INITDB_ROOT_PASSWORD: mypassword
+    volumes:
+      - mongo-data:/data/db
+  
+volumes:
+  mongo-data:
