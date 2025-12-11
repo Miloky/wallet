@@ -11,7 +11,7 @@
       - "5341:80"
     environment:
       - ACCEPT_EULA=Y
-      - SEQ_FIRSTRUN_ADMINPASSWORD=me_admin
+      - SEQ_FIRSTRUN_ADMINPASSWORD=me_admin # current - password1234
     restart: unless-stopped
     volumes:
       - ./seq-data:/data
