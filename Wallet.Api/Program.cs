@@ -12,6 +12,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
+    loggingBuilder.AddSimpleConsole();
     loggingBuilder.AddSeq(builder.Configuration.GetSection("Seq"));
 });
 
