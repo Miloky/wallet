@@ -3,3 +3,5 @@ bin
 obj
 seq-data
 *.sln.DotSettings.user
+.vs
+wallet-firebase.json

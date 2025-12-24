@@ -1,10 +1,15 @@
-using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Wallet.Api;
 using Wallet.Api.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// TODO: Migrate to dotnet 10
+// TODO: Add logging templates, display correlation id when logging in console.
+// TODO: Collect unit tests covarage 
+// TODO: T2/Module tests
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -14,16 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
-    loggingBuilder.AddConsole(x=>x.FormatterName = "customName").AddConsoleFormatter<CustomFormatter, ConsoleFormatterOptions>();
-    // loggingBuilder.Configure(options =>
-    // {
-    //     options.ActivityTrackingOptions = ActivityTrackingOptions.None;
-    // });
-    // loggingBuilder.AddSimpleConsole(options =>
-    // {
-    //     options.IncludeScopes = true;
-    //     options.ColorBehavior = LoggerColorBehavior.Enabled;
-    // }).AddConsoleFormatter<>()
+    loggingBuilder.AddSimpleConsole();
     loggingBuilder.AddSeq(builder.Configuration.GetSection("Seq"));
 });
 
@@ -45,7 +41,6 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 
 builder.Services.AddSingleton<TransactionService>();
 builder.Services.AddSingleton<AccountService>();
-builder.Services.AddTransient<CustomFormatter>(); 
 
 builder.Services.AddControllers();
 

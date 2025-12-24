@@ -5,9 +5,9 @@ namespace Wallet.Api;
 
 public enum TransactionType
 {
-    Expanse,
-    Income,
-    Transfer
+    Expanse = 1,
+    Income = 2,
+    Transfer = 3
 }
 
 public class Transaction

@@ -1,5 +1,7 @@
 ﻿namespace Wallet.Api;
 
+
+// TODO: Logs and unit tests
 public class CorrelationIdMiddleware
 {
     private const string CorrelationIdHeader = "X-Correlation-ID";
@@ -27,7 +29,5 @@ public class CorrelationIdMiddleware
             
             await _next(context);
         }
-        
-        
     }
 }
