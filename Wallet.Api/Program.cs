@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging.Console;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using Wallet.Api;
 using Wallet.Api.Controllers;
@@ -12,7 +14,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddLogging(loggingBuilder =>
 {
     loggingBuilder.ClearProviders();
-    loggingBuilder.AddSimpleConsole();
+    loggingBuilder.AddConsole(x=>x.FormatterName = "customName").AddConsoleFormatter<CustomFormatter, ConsoleFormatterOptions>();
+    // loggingBuilder.Configure(options =>
+    // {
+    //     options.ActivityTrackingOptions = ActivityTrackingOptions.None;
+    // });
+    // loggingBuilder.AddSimpleConsole(options =>
+    // {
+    //     options.IncludeScopes = true;
+    //     options.ColorBehavior = LoggerColorBehavior.Enabled;
+    // }).AddConsoleFormatter<>()
     loggingBuilder.AddSeq(builder.Configuration.GetSection("Seq"));
 });
 
@@ -21,8 +32,8 @@ builder.Services.Configure<WalletDatabaseSettings>(
 
 builder.Services.AddSingleton<IMongoClient>(sp =>
 {
-    var walletDatabaseSettings = sp.GetRequiredService<WalletDatabaseSettings>();
-    return new MongoClient(walletDatabaseSettings.ConnectionString);
+    var walletDatabaseSettings = sp.GetRequiredService<IOptions<WalletDatabaseSettings>>();
+    return new MongoClient(walletDatabaseSettings.Value.ConnectionString);
 });
 
 builder.Services.AddSingleton<IMongoDatabase>(sp =>
@@ -34,6 +45,7 @@ builder.Services.AddSingleton<IMongoDatabase>(sp =>
 
 builder.Services.AddSingleton<TransactionService>();
 builder.Services.AddSingleton<AccountService>();
+builder.Services.AddTransient<CustomFormatter>(); 
 
 builder.Services.AddControllers();
 
@@ -45,8 +57,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<CorrelationIdMiddleware>();
 
 app.MapControllers();
-
 
 app.Run();

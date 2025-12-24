@@ -4,15 +4,14 @@ using Wallet.Api.Controllers;
 
 namespace Wallet.Api;
 
-
 // TODO: add disposible pattern implementation
 public class TransactionService
 {
     private readonly IMongoCollection<Transaction> _transactionsCollection;
-    private readonly MongoClient _mongoClient;
+    private readonly IMongoClient _mongoClient;
 
     public TransactionService(
-        IOptions<WalletDatabaseSettings> walletDatabaseSettings, MongoClient mongoClient)
+        IOptions<WalletDatabaseSettings> walletDatabaseSettings, IMongoClient mongoClient)
     {
         _mongoClient = mongoClient;
         
